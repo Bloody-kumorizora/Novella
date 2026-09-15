@@ -9,19 +9,15 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play Новеллаа.</tw-noscript></noscript></tw-story>
-<tw-storydata name="Новеллаа" startnode="1" creator="Twine" creator-version="2.12.0" format="Harlowe" format-version="3.3.9" ifid="461B88CB-B33A-4EBF-A16F-C3DB5AB7E6AF" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* ===== ФОН СТРАНИЦЫ ===== */
-html, body {
+<tw-storydata name="Новеллаа" startnode="1" creator="Twine" creator-version="2.12.0" format="Harlowe" format-version="3.3.9" ifid="461B88CB-B33A-4EBF-A16F-C3DB5AB7E6AF" options="" tags="" zoom="1" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">html, body {
   background: black;
 }
-
 tw-story {
-  background: black !important;
+  background: black;
   background-size: cover;
   background-position: center;
-  transition: background-image 0.3s;
+  transition: background-image 0.5s ease-in-out;
 }
-
-/* ===== ОКОШКО ДИАЛОГА — длинный овал, приподнятый над низом, с мягким свечением ===== */
 tw-passage {
   position: fixed;
   bottom: 90px;
@@ -30,6 +26,9 @@ tw-passage {
   width: 92%;
   max-width: 1100px;
   height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: linear-gradient(180deg, rgba(30, 28, 45, 0.94), rgba(12, 11, 20, 0.96));
   border: 2px solid rgba(255, 204, 0, 0.7);
   border-radius: 999px;
@@ -41,25 +40,25 @@ tw-passage {
   padding: 28px 90px;
   box-sizing: border-box;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   font-size: 19px;
   line-height: 1.5;
   font-family: sans-serif;
   cursor: pointer;
+  z-index: 2;
   animation: fadeIn 0.3s ease-in;
 }
-
+tw-passage::-webkit-scrollbar {
+  display: none;
+}
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* ===== ССЫЛКИ / КНОПКИ =====
-   По умолчанию все ссылки скрыты (клик работает через JS по всему окну).
-   Показываем кнопки обратно только на экранах настоящего выбора (тег choice). */
 tw-link {
   display: none !important;
 }
-
 tw-passage[tags~="choice"] tw-link {
   display: block !important;
   background: rgba(255, 204, 0, 0.12);
@@ -73,47 +72,75 @@ tw-passage[tags~="choice"] tw-link {
   transition: background 0.2s, transform 0.1s;
   font-size: 16px;
 }
-
 tw-passage[tags~="choice"] tw-link:hover {
   background: rgba(255, 204, 0, 0.25);
   transform: translateX(4px);
 }
-
-/* ===== ТЕКСТ / ДИАЛОГИ ===== */
 .narration {
   color: #bbbbbb;
   font-style: italic;
   display: block;
   margin-bottom: 10px;
 }
-
 .dialogue {
   color: white;
   display: block;
   margin-bottom: 6px;
 }
-
 .speaker {
   color: #ffcc00;
   font-weight: bold;
   margin-right: 8px;
 }
-
-/* ===== ФОНЫ ЛОКАЦИЙ ПО ТЕГАМ ===== */
 tw-story[tags~="bg-boloto"] {
-  background-image: url("/home/lab202/Загрузки/Ссылка на 2026-09-04.jpg");
+  background-image: url("https://github.com/Bloody-kumorizora/Novella/blob/main/9A50AE6E-2426-4B16-818C-D7C8F7B45697.png?raw=true");
 }
-
-/* добавляй сюда новые локации по этому же принципу:
 tw-story[tags~="bg-rynok"] {
-  background-image: url("ССЫЛКА_НА_РЫНОК.jpg");
+  background-image: url("https://github.com/Bloody-kumorizora/Novella/blob/main/A92DD445-08D7-4837-AF51-70C9E70AF287.png?raw=true");
 }
 tw-story[tags~="bg-akademiya"] {
-  background-image: url("ССЫЛКА_НА_АКАДЕМИЮ.jpg");
+  background-image: url("https://github.com/Bloody-kumorizora/Novella/blob/main/EAE736FB-7FBC-43D6-BE8D-A0AE165E896C.png?raw=true");
 }
-*/
-
-/* ===== ЭКРАН НАСТОЯЩЕГО ВЫБОРА (тег choice) ===== */
+.char-portrait {
+  position: fixed;
+  bottom: 0;
+  right: 10%;
+  height: 85vh;
+  max-height: 800px;
+  z-index: 1;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease-in;
+}
+.char-portrait.left {
+  right: auto;
+  left: 10%;
+}
+.nametag {
+  position: fixed;
+  bottom: 235px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffcc00, #cc9900);
+  color: #1a1a1a;
+  font-weight: bold;
+  padding: 8px 30px;
+  border-radius: 20px;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  z-index: 3;
+}
+.vn-menu {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 3;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-family: sans-serif;
+}
 tw-passage[tags~="choice"] {
   position: fixed;
   top: 0;
@@ -134,15 +161,14 @@ tw-passage[tags~="choice"] {
   padding: 20px;
   box-sizing: border-box;
   cursor: default;
+  z-index: 5;
 }
-
 tw-passage[tags~="choice"] .narration {
   text-align: center;
   font-size: 22px;
   max-width: 700px;
   margin-bottom: 20px;
 }
-
 tw-passage[tags~="choice"] .choice-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -151,7 +177,6 @@ tw-passage[tags~="choice"] .choice-wrap {
   max-width: 700px;
   width: 100%;
 }
-
 tw-passage[tags~="choice"] .choice-wrap tw-link {
   flex: 1 1 200px;
   max-width: 320px;
@@ -159,52 +184,143 @@ tw-passage[tags~="choice"] .choice-wrap tw-link {
   font-size: clamp(15px, 3.5vw, 20px);
   padding: 20px 16px;
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">document.addEventListener('click', function(e) {
+
+/* ==========================================================
+   НОВОЕ: тряска экрана и fade-to-black
+   ========================================================== */
+
+tw-story {
+  overflow: hidden;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate(-1px, -2px); }
+  20%, 80% { transform: translate(2px, 3px); }
+  30%, 50%, 70% { transform: translate(-4px, 4px); }
+  40%, 60% { transform: translate(4px, -4px); }
+}
+
+.shake {
+  animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.fade-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+.fade-overlay.active {
+  opacity: 1;
+}
+
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">
+/* ==========================================================
+   ОВЕРЛЕЙ ДЛЯ FADE-TO-BLACK
+   Создаётся один раз при загрузке истории
+   ========================================================== */
+if (!document.querySelector('.fade-overlay')) {
+  var overlay = document.createElement('div');
+  overlay.className = 'fade-overlay';
+  document.body.appendChild(overlay);
+}
+
+function fadeToBlack(callback, duration) {
+  duration = duration || 500;
+  document.querySelector('.fade-overlay').classList.add('active');
+  setTimeout(function () {
+    if (callback) callback();
+  }, duration);
+}
+
+function fadeFromBlack(delay) {
+  delay = delay || 60;
+  setTimeout(function () {
+    document.querySelector('.fade-overlay').classList.remove('active');
+  }, delay);
+}
+
+/* ==========================================================
+   ТРЯСКА ЭКРАНА
+   ========================================================== */
+function playShake(duration) {
+  duration = duration || 400;
+  var story = document.querySelector('tw-story');
+  story.classList.remove('shake');
+  void story.offsetWidth; // форсируем reflow, иначе повторный вызов подряд не перезапустит анимацию
+  story.classList.add('shake');
+  setTimeout(function () {
+    story.classList.remove('shake');
+  }, duration);
+}
+
+/* ==========================================================
+   КЛИК ДЛЯ ПРОДВИЖЕНИЯ ДИАЛОГА
+   ========================================================== */
+document.addEventListener('click', function (e) {
   var passage = e.target.closest('tw-passage');
   if (!passage) return;
   if (e.target.closest('tw-link')) return;
-  var tags = passage.getAttribute('tags') || '';
-  if (tags.indexOf('choice') !== -1) return;
+
+  var tagList = (passage.getAttribute('tags') || '').split(' ');
+  if (tagList.indexOf('choice') !== -1) return;
+
   var links = passage.querySelectorAll('tw-link');
-  if (links.length === 1) {
-    links[0].click();
+  if (links.length !== 1) return;
+
+  var link = links[0];
+
+  if (tagList.indexOf('fade-out') !== -1) {
+    fadeToBlack(function () {
+      link.click();
+    });
+  } else {
+    link.click();
   }
 });
-</script><tw-tag name="bg-boloto" color="blue"></tw-tag><tw-tag name="choice" color="blue"></tw-tag><tw-passagedata pid="1" name="Начало новеллы" tags="" position="575,250" size="100,100">Утро. Зал совета.. 
+</script><tw-tag name="bg-boloto" color="blue"></tw-tag><tw-tag name="choice" color="blue"></tw-tag><tw-tag name="footer" color="purple"></tw-tag><tw-tag name="bg-akademiya" color="green"></tw-tag><tw-tag name="bg-rynok" color="green"></tw-tag><tw-passagedata pid="1" name="Начало новеллы" tags="" position="575,250" size="100,100">Утро. Зал совета.. 
 [[▶-&gt;Задание Совета]]</tw-passagedata><tw-passagedata pid="2" name="Тропа_Развилка" tags="choice" position="725,1325" size="100,100">&lt;span class=&quot;narration&quot;&gt;Тропа расходилась на две: одна вела прямиком в Болото, другая — крюком через шумный Рынок Гоблинов.&lt;/span&gt;
 &lt;div class=&quot;choice-wrap&quot;&gt;
 [[Идти напрямик через болото-&gt;Болото_1]]
 [[Сделать крюк через рынок-&gt;Рынок_1]]
 &lt;/div&gt;
-</tw-passagedata><tw-passagedata pid="3" name="Задание Совета" tags="" position="575,375" size="100,100">&lt;span class=&quot;narration&quot;&gt;Доска объявлений Академии Разлома предлагала треть класса одну и ту же радость: найти Хихикающий Гриб для экзамена по зельеварению — единственный ингредиент для Зелья Неудержимого Веселья, без которого не сдать финал по прикладной алхимии. &lt;span class=&quot;narration&quot;&gt;&lt;/span&gt; [[▶-&gt;Задание_1]]</tw-passagedata><tw-passagedata pid="4" name="Задание_1" tags="" position="725,425" size="100,100">&lt;span class=&quot;narration&quot;&gt; Гриб растёт исключительно в Болоте Хи-Хи. Названо оно так буквально: гриб хихикает, если его напугать, и только испуганный гриб годится для зелья. Эш уже полчаса изучал справочник, помечая опасности закладками семи разных цветов.&lt;/span&gt; [[▶-&gt;Задание_2]]
-</tw-passagedata><tw-passagedata pid="5" name="Задание_2" tags="" position="725,550" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Согласно источникам, Болото Хи-Хи кишит ядовитыми лягушками, ложными тропами и по меньшей мере одной легендой про гигантскую улитку.&lt;/span&gt; [[▶-&gt;Задание_3]]</tw-passagedata><tw-passagedata pid="6" name="Задание_3" tags="" position="725,675" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;И, что важнее, спокойно собранный гриб абсолютно бесполезен для зелья — нужен именно перепуганный.&lt;/span&gt;[[▶-&gt;Задание_4]]
-</tw-passagedata><tw-passagedata pid="7" name="Задание_4" tags="" position="725,800" size="100,100">&lt;span class=&quot;narration&quot;&gt;Кайл, дожёвывая пирожок, пожал плечами.&lt;/span&gt;[[▶-&gt;Задание_5]]
-</tw-passagedata><tw-passagedata pid="8" name="Задание_5" tags="" position="600,925" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Кайл:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Или мы просто пойдём и посмотрим.&lt;/span&gt;[[▶-&gt;Задание_6]]
-</tw-passagedata><tw-passagedata pid="9" name="Задание_6" tags="" position="600,1050" size="100,100">&lt;span class=&quot;narration&quot;&gt;С другого конца доски объявлений на них уже победно щурился Рорен Восс, окружённый свитой.&lt;/span&gt;[[▶-&gt;Задание_7]]
+</tw-passagedata><tw-passagedata pid="3" name="Задание Совета" tags="bg-akademiya" position="575,375" size="100,100">
+&lt;span class=&quot;narration&quot;&gt;Доска объявлений Академии Разлома предлагала треть класса одну и ту же радость: найти Хихикающий Гриб для экзамена по зельеварению — единственный ингредиент для Зелья Неудержимого Веселья, без которого не сдать финал по прикладной алхимии. &lt;span class=&quot;narration&quot;&gt;&lt;/span&gt; [[▶-&gt;Задание_1]]</tw-passagedata><tw-passagedata pid="4" name="Задание_1" tags="bg-akademiya" position="725,425" size="100,100">
+
+&lt;span class=&quot;narration&quot;&gt; Гриб растёт исключительно в Болоте Хи-Хи. Названо оно так буквально: гриб хихикает, если его напугать, и только испуганный гриб годится для зелья. Эш уже полчаса изучал справочник, помечая опасности закладками семи разных цветов.&lt;/span&gt; [[▶-&gt;Задание_2]]
+</tw-passagedata><tw-passagedata pid="5" name="Задание_2" tags="bg-akademiya" position="725,550" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Согласно источникам, Болото Хи-Хи кишит ядовитыми лягушками, ложными тропами и по меньшей мере одной легендой про гигантскую улитку.&lt;/span&gt; [[▶-&gt;Задание_3]]</tw-passagedata><tw-passagedata pid="6" name="Задание_3" tags="bg-akademiya" position="725,675" size="100,100">
+&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;И, что важнее, спокойно собранный гриб абсолютно бесполезен для зелья — нужен именно перепуганный.&lt;/span&gt;[[▶-&gt;Задание_4]]
+</tw-passagedata><tw-passagedata pid="7" name="Задание_4" tags="bg-akademiya" position="725,800" size="100,100">&lt;span class=&quot;narration&quot;&gt;Кайл, дожёвывая пирожок, пожал плечами.&lt;/span&gt;[[▶-&gt;Задание_5]]
+</tw-passagedata><tw-passagedata pid="8" name="Задание_5" tags="bg-akademiya" position="600,925" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Кайл:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Или мы просто пойдём и посмотрим.&lt;/span&gt;[[▶-&gt;Задание_6]]
+</tw-passagedata><tw-passagedata pid="9" name="Задание_6" tags="bg-akademiya" position="600,1050" size="100,100">&lt;span class=&quot;narration&quot;&gt;С другого конца доски объявлений на них уже победно щурился Рорен Восс, окружённый свитой.&lt;/span&gt;[[▶-&gt;Задание_7]]
 </tw-passagedata><tw-passagedata pid="10" name="Задание_7" tags="choice" position="600,1175" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Рорен:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Опаздываете, зубрилы! Гриб уже практически мой!&lt;/span&gt;
 [[Идти на болото-&gt;Тропа_Развилка]]
-</tw-passagedata><tw-passagedata pid="11" name="Болото_1" tags="" position="675,1450" size="100,100">&lt;span class=&quot;narration&quot;&gt;Болото хлюпало, пузырилось и, кажется, действительно тихо хихикало где-то в глубине.&lt;/span&gt;[[▶-&gt;Болото_2]]
-</tw-passagedata><tw-passagedata pid="12" name="Болото_2" tags="choice" position="675,1575" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш нервно листал справочник в поисках нужной страницы.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="11" name="Болото_1" tags="bg-boloto" position="675,1450" size="100,100">&lt;span class=&quot;narration&quot;&gt;Болото хлюпало, пузырилось и, кажется, действительно тихо хихикало где-то в глубине.&lt;/span&gt;[[▶-&gt;Болото_2]]
+</tw-passagedata><tw-passagedata pid="12" name="Болото_2" tags="choice bg-boloto" position="675,1575" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш нервно листал справочник в поисках нужной страницы.&lt;/span&gt;
 &lt;div class=&quot;choice-wrap&quot;&gt;
 [[Строго следовать инструкциям-&gt;Болото_Провал_1]]
 [[Довериться Кайлу-&gt;Болото_Успех_1]]
 &lt;/div&gt;
-</tw-passagedata><tw-passagedata pid="13" name="Болото_Провал_1" tags="" position="600,1700" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш прочитал инструкцию вслух, слово в слово — а справочник как раз советовал «избегать резких звуков».&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="13" name="Болото_Провал_1" tags="bg-boloto" position="600,1700" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш прочитал инструкцию вслух, слово в слово — а справочник как раз советовал «избегать резких звуков».&lt;/span&gt;
 
 [[▶-&gt;Болото_Провал_2]]
-</tw-passagedata><tw-passagedata pid="14" name="Болото_Провал_2" tags="" position="600,1825" size="100,100">&lt;span class=&quot;narration&quot;&gt;Именно чтение вслух оказалось резким звуком. Полсотни хихикающих грибов испугались одновременно и обиженно захихикали в унисон.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="14" name="Болото_Провал_2" tags="bg-boloto" position="600,1825" size="100,100">&lt;span class=&quot;narration&quot;&gt;Именно чтение вслух оказалось резким звуком. Полсотни хихикающих грибов испугались одновременно и обиженно захихикали в унисон.&lt;/span&gt;
 
 [[▶-&gt;Болото_Провал_3]]
-</tw-passagedata><tw-passagedata pid="15" name="Болото_Провал_3" tags="" position="600,1950" size="100,100">&lt;span class=&quot;narration&quot;&gt;С ближайших деревьев посыпались перепуганные птицы, а сами грибы попрятались под землю на добрых полчаса.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="15" name="Болото_Провал_3" tags="bg-boloto" position="600,1950" size="100,100">&lt;span class=&quot;narration&quot;&gt;С ближайших деревьев посыпались перепуганные птицы, а сами грибы попрятались под землю на добрых полчаса.&lt;/span&gt;
 
 [[▶-&gt;Болото_Провал_4]]
-</tw-passagedata><tw-passagedata pid="16" name="Болото_Провал_4" tags="" position="600,2075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш и Кайл, оба по колено в тине, синхронно вздохнули.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="16" name="Болото_Провал_4" tags="bg-boloto" position="600,2075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш и Кайл, оба по колено в тине, синхронно вздохнули.&lt;/span&gt;
 
 [[Ждать-&gt;Финал_Мокрые_1]]
-</tw-passagedata><tw-passagedata pid="17" name="Финал_Мокрые_1" tags="" position="600,2200" size="100,100">&lt;span class=&quot;narration&quot;&gt;Через полчаса ожидания, по пояс в болотной жиже, грибы наконец снова показались.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="17" name="Финал_Мокрые_1" tags="bg-boloto" position="600,2200" size="100,100">&lt;span class=&quot;narration&quot;&gt;Через полчаса ожидания, по пояс в болотной жиже, грибы наконец снова показались.&lt;/span&gt;
 
 [[▶-&gt;Финал_Мокрые_2]]
-</tw-passagedata><tw-passagedata pid="18" name="Финал_Мокрые_2" tags="" position="600,2325" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш и Кайл набрали нужное количество — молча, без единого слова о том, кто был прав.&lt;/span&gt;
+</tw-passagedata><tw-passagedata pid="18" name="Финал_Мокрые_2" tags="bg-boloto" position="600,2325" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш и Кайл набрали нужное количество — молча, без единого слова о том, кто был прав.&lt;/span&gt;
 
 [[▶-&gt;Финал_Мокрые_3]]
 </tw-passagedata><tw-passagedata pid="19" name="Финал_Мокрые_3" tags="" position="600,2450" size="100,100">&lt;span class=&quot;narration&quot;&gt;Они вернулись в Академию мокрыми, пахнущими тиной, но с полным мешком грибов — и с историей, которую пересказывали ещё месяц.&lt;/span&gt;
@@ -212,10 +328,10 @@ tw-passage[tags~="choice"] .choice-wrap tw-link {
 [[▶-&gt;Финал_Мокрые_4]]
 &lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ (мокрый, но успешный).&lt;/strong&gt;&lt;/span&gt;
 </tw-passagedata><tw-passagedata pid="20" name="Рынок_1" tags="" position="850,1450" size="100,100">&lt;span class=&quot;narration&quot;&gt;Рынок Гоблинов встретил их гомоном, запахом жареных крысиных хвостиков и одним особенно наглым торговцем.&lt;/span&gt;
-[[▶-&gt;Рынок_2]]</tw-passagedata><tw-passagedata pid="21" name="Болото_Успех_1" tags="" position="800,1700" size="100,100">&lt;span class=&quot;narration&quot;&gt;Кайл присел, понюхал воздух с видом дегустатора дорогого вина, и молча указал пальцем на едва заметную кочку.&lt;/span&gt;
-[[▶-&gt;Болото_Успех_2]]</tw-passagedata><tw-passagedata pid="22" name="Финал_Мокрые_4" tags="" position="600,2575" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ.&lt;/strong&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="23" name="Болото_Успех_2" tags="" position="800,1825" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Кайл:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Там.&lt;/span&gt;
-[[▶-&gt;Болото_Успех_3]]</tw-passagedata><tw-passagedata pid="24" name="Болото_Успех_3" tags="" position="800,1950" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш, всё ещё держа открытый справочник, недоверчиво пошёл за ним — и точно, под кочкой обнаружилась целая грибница, никем не потревоженная.&lt;/span&gt;
-[[▶-&gt;Гриб_Найден_1]]</tw-passagedata><tw-passagedata pid="25" name="Гриб_Найден_1" tags="" position="800,2075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Мешок с Хихикающими Грибами был у них в руках — тяжёлый, попискивающий от каждого шага.&lt;/span&gt;
+[[▶-&gt;Рынок_2]]</tw-passagedata><tw-passagedata pid="21" name="Болото_Успех_1" tags="bg-boloto" position="800,1700" size="100,100">&lt;span class=&quot;narration&quot;&gt;Кайл присел, понюхал воздух с видом дегустатора дорогого вина, и молча указал пальцем на едва заметную кочку.&lt;/span&gt;
+[[▶-&gt;Болото_Успех_2]]</tw-passagedata><tw-passagedata pid="22" name="Финал_Мокрые_4" tags="" position="600,2575" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ.&lt;/strong&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="23" name="Болото_Успех_2" tags="bg-boloto" position="800,1825" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Кайл:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Там.&lt;/span&gt;
+[[▶-&gt;Болото_Успех_3]]</tw-passagedata><tw-passagedata pid="24" name="Болото_Успех_3" tags="bg-boloto" position="800,1950" size="100,100">&lt;span class=&quot;narration&quot;&gt;Эш, всё ещё держа открытый справочник, недоверчиво пошёл за ним — и точно, под кочкой обнаружилась целая грибница, никем не потревоженная.&lt;/span&gt;
+[[▶-&gt;Гриб_Найден_1]]</tw-passagedata><tw-passagedata pid="25" name="Гриб_Найден_1" tags="bg-boloto" position="800,2075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Мешок с Хихикающими Грибами был у них в руках — тяжёлый, попискивающий от каждого шага.&lt;/span&gt;
 [[▶-&gt;Гриб_Найден_2]]</tw-passagedata><tw-passagedata pid="26" name="Рынок_2" tags="choice" position="850,1575" size="100,100">&lt;span class=&quot;narration&quot;&gt;У торговца якобы был «последний Хихикающий Гриб в городе» — по цене небольшого замка.&lt;/span&gt;
 &lt;div class=&quot;choice-wrap&quot;&gt;
 [[Попробовать сбить цену честно-&gt;Рынок_Обман_1]]
@@ -227,8 +343,8 @@ tw-passage[tags~="choice"] .choice-wrap tw-link {
 [[▶-&gt;Тропа_Погоня_2]]</tw-passagedata><tw-passagedata pid="31" name="Тропа_Погоня_2" tags="" position="912.5,2075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Один разъярённый гоблин-торговец фруктами кричал им вслед что-то очень эмоциональное.&lt;/span&gt;
 [[▶-&gt;Финал_Погоня_1]]</tw-passagedata><tw-passagedata pid="32" name="Финал_Погоня_1" tags="" position="912.5,2200" size="100,100">&lt;span class=&quot;narration&quot;&gt;Мошенника они, конечно, не поймали — зато вернулись в Академию без гриба, зато с потрясающей историей.&lt;/span&gt;
 [[▶-&gt;Финал_Погоня_2]]</tw-passagedata><tw-passagedata pid="33" name="Финал_Погоня_2" tags="" position="912.5,2325" size="100,100">&lt;span class=&quot;narration&quot;&gt;Наставник, впрочем, зачёл им «полевой опыт» вместо самого гриба — по доброте душевной, или просто чтобы не разбираться дальше.&lt;/span&gt;[[▶-&gt;Финал_Погоня_3]]</tw-passagedata><tw-passagedata pid="34" name="Финал_Погоня_3" tags="" position="912.5,2450" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ (без гриба, но с легендой).&lt;/strong&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="35" name="Рынок_Просто_2" tags="" position="1037.5,1825" size="100,100">&lt;span class=&quot;narration&quot;&gt;Торговец, ошарашенный тем, что кто-то вообще не стал торговаться, на радостях кинул в придачу мешочек засахаренных орехов.&lt;/span&gt;
-[[▶-&gt;Гриб_Найден_1]]</tw-passagedata><tw-passagedata pid="36" name="Гриб_Найден_2" tags="" position="800,2200" size="100,100">&lt;span class=&quot;narration&quot;&gt;На обратном пути дорогу преградил Рорен Восс собственной персоной, без единого гриба в руках, зато с полным набором оправданий.&lt;/span&gt;
-[[▶-&gt;Гриб_Найден_3]]</tw-passagedata><tw-passagedata pid="37" name="Гриб_Найден_3" tags="" position="800,2325" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Рорен:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Моя команда просто... стратегически отступила! Временно!&lt;/span&gt;
+[[▶-&gt;Гриб_Найден_1]]</tw-passagedata><tw-passagedata pid="36" name="Гриб_Найден_2" tags="bg-boloto" position="800,2200" size="100,100">&lt;span class=&quot;narration&quot;&gt;На обратном пути дорогу преградил Рорен Восс собственной персоной, без единого гриба в руках, зато с полным набором оправданий.&lt;/span&gt;
+[[▶-&gt;Гриб_Найден_3]]</tw-passagedata><tw-passagedata pid="37" name="Гриб_Найден_3" tags="bg-boloto" position="800,2325" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Рорен:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Моя команда просто... стратегически отступила! Временно!&lt;/span&gt;
 [[▶-&gt;Встреча_1]]</tw-passagedata><tw-passagedata pid="38" name="Встреча_1" tags="" position="800,2450" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;Скажем так, мы можем поделиться грибами.&lt;/span&gt;
 [[▶-&gt;Встреча_2]]</tw-passagedata><tw-passagedata pid="39" name="Встреча_2" tags="" position="800,2575" size="100,100">&lt;span class=&quot;speaker&quot;&gt;Эш:&lt;/span&gt;&lt;span class=&quot;dialogue&quot;&gt;В обмен на маленькое публичное признание, что твоя «стратегия» — это когда все твои люди разбежались от одной лягушки.&lt;/span&gt;
 [[▶-&gt;Встреча_3]]</tw-passagedata><tw-passagedata pid="40" name="Встреча_3" tags="choice" position="800,2700" size="100,100">&lt;span class=&quot;narration&quot;&gt;Рорен побледнел.&lt;/span&gt;
@@ -246,7 +362,7 @@ tw-passage[tags~="choice"] .choice-wrap tw-link {
 [[▶-&gt;Финал_Ничья_4]]</tw-passagedata><tw-passagedata pid="49" name="Финал_Ничья_4" tags="" position="800,3200" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ.&lt;/strong&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="50" name="Финал_Гриб_Раздавлен_2" tags="" position="925,2950" size="100,100">&lt;span class=&quot;narration&quot;&gt;Раздался хор возмущённого хихиканья, а затем едкий грибной запах на полмили вокруг.&lt;/span&gt;
 [[▶-&gt;Финал_Гриб_Раздавлен_3]]</tw-passagedata><tw-passagedata pid="51" name="Финал_Гриб_Раздавлен_3" tags="" position="925,3075" size="100,100">&lt;span class=&quot;narration&quot;&gt;Экзамен пришлось переносить. Наставник по зельеварению долго не мог понять, почему в его кабинете неделю пахнет весельем в чистом виде.&lt;/span&gt;
 [[▶-&gt;Финал_Гриб_Раздавлен_4]]
-</tw-passagedata><tw-passagedata pid="52" name="Финал_Гриб_Раздавлен_4" tags="" position="925,3200" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ.&lt;/strong&gt;&lt;/span&gt;</tw-passagedata></tw-storydata>
+</tw-passagedata><tw-passagedata pid="52" name="Финал_Гриб_Раздавлен_4" tags="" position="925,3200" size="100,100">&lt;span class=&quot;narration&quot;&gt;&lt;strong&gt;КОНЕЦ.&lt;/strong&gt;&lt;/span&gt;</tw-passagedata><tw-passagedata pid="53" name="Footer" tags="footer" position="875,225" size="100,100"></tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
